@@ -3,6 +3,8 @@ do
   local _obj_0 = require("Util")
   DOMINOE_WIDTH, DOMINOE_HEIGHT, HALF_IMAGE_OFFSET = _obj_0.DOMINOE_WIDTH, _obj_0.DOMINOE_HEIGHT, _obj_0.HALF_IMAGE_OFFSET
 end
+local Move
+Move = require("Move").Move
 do
   local _class_0
   local _base_0 = {
@@ -31,6 +33,7 @@ do
           height = #train.dominoes * DOMINOE_HEIGHT
         end
         if x >= train_x and x <= train_x + DOMINOE_WIDTH and y >= train_y and y <= train_y + height then
+          print("clicked in train!")
           return train
         end
       end
@@ -45,7 +48,6 @@ do
         local dominoe_x = dominoe.x - (DOMINOE_WIDTH / 2)
         local dominoe_y = dominoe.y - (DOMINOE_HEIGHT / 2)
         if x >= dominoe_x and x <= dominoe_x + DOMINOE_WIDTH and y >= dominoe_y and y <= dominoe_y + DOMINOE_HEIGHT then
-          print("clicked on this dominoe " .. tostring(dominoe))
           answer = dominoe
           break
         end
@@ -53,25 +55,31 @@ do
       end
       return answer
     end,
+    did_click_bone_pile = function(self, x, y)
+      return game.ui.elements["bone_pile"]:did_click(x, y)
+    end,
     click_mouse = function(self, x, y, button)
       if button == 1 then
         if self.selected then
           local train = self:did_click_train(x, y)
-          if train and train:can_connect(self.selected, game.current_double) then
-            self.player:remove_dominoe(self.selected)
-            print("adding " .. tostring(self.selected) .. " to the train")
-            train:add_dominoe(self.selected)
+          if train and (train.is_open or train == self.player.train) and train:can_connect(self.selected, game.current_double) then
+            local move = Move(train, self.selected)
+            print("completing move " .. tostring(move))
+            self.player:complete_move(move)
           end
           self.selected = nil
         else
           local dominoe = self:did_click_hand(x, y)
           if dominoe then
             self.selected = dominoe
+          elseif self:did_click_bone_pile(x, y) then
+            print("clicked bone pile!")
+            return self.player:complete_move(Move():make_draw())
           end
         end
       elseif button == 2 then
         if self.selected then
-          self.selected.flipped = not self.selected.flipped
+          return self.selected:rotate()
         end
       end
     end

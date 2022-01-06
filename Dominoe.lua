@@ -39,16 +39,19 @@ do
     draw = function(self)
       love.graphics.push()
       love.graphics.translate(self.x, self.y)
-      if self.flipped then
+      if self.flip == 1 then
         love.graphics.rotate(pi)
+      elseif self.flip == 2 then
+        love.graphics.rotate(pi / 2)
       end
       love.graphics.draw(base, 0, 0, 0, 1, 1, DOMINOE_WIDTH, DOMINOE_HEIGHT / 2)
-      if not (self.top_half == DominoeValue.Blank) then
+      if not (self.top_half == 0) then
         love.graphics.draw(self.top_img, 0, 0, 0, 1, 1, DOMINOE_WIDTH, DOMINOE_HEIGHT / 2)
       end
-      if not (self.bot_half == DominoeValue.Blank) then
+      if not (self.bot_half == 0) then
         love.graphics.draw(self.bot_img, 0, HALF_IMAGE_OFFSET, 0, 1, 1, DOMINOE_WIDTH, DOMINOE_HEIGHT / 2)
       end
+      love.graphics.setShader()
       return love.graphics.pop()
     end,
     __tostring = function(self)
@@ -63,6 +66,16 @@ do
     end,
     is_double = function(self)
       return self.top_half == self.bot_half
+    end,
+    rotate = function(self)
+      local _exp_0 = self.flip
+      if 0 == _exp_0 then
+        self.flip = 2
+      elseif 2 == _exp_0 then
+        self.flip = 1
+      elseif 1 == _exp_0 then
+        self.flip = 0
+      end
     end
   }
   _base_0.__index = _base_0
@@ -76,7 +89,7 @@ do
       else
         self.bot_img = get_image_from_dvalue(self.bot_half)
       end
-      self.flipped = false
+      self.flip = 0
     end,
     __base = _base_0,
     __name = "Dominoe",

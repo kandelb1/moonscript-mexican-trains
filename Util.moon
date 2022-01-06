@@ -19,87 +19,29 @@ export HALF_IMAGE_OFFSET = DOMINOE_HEIGHT / 2
 
 export get_image_from_dvalue = (dominoe_val) ->
   switch dominoe_val
-    when DominoeValue.One
-      one
-    when DominoeValue.Two
-      two
-    when DominoeValue.Three
-      three
-    when DominoeValue.Four
-      four
-    when DominoeValue.Five
-      five
-    when DominoeValue.Six
-      six
-    when DominoeValue.Seven
-      seven
-    when DominoeValue.Eight
-      eight
-    when DominoeValue.Nine
-      nine
-    when DominoeValue.Ten
-      ten
-    when DominoeValue.Eleven
-      eleven
-    when DominoeValue.Twelve
-      twelve
-      
-export num_to_dval = (num) ->
-  switch num
-    when 0
-      DominoeValue.Blank
     when 1
-      DominoeValue.One
+      one
     when 2
-      DominoeValue.Two
+      two
     when 3
-      DominoeValue.Three
+      three
     when 4
-      DominoeValue.Four
+      four
     when 5
-      DominoeValue.Five
+      five
     when 6
-      DominoeValue.Six
+      six
     when 7
-      DominoeValue.Seven
+      seven
     when 8
-      DominoeValue.Eight
+      eight
     when 9
-      DominoeValue.Nine
+      nine
     when 10
-      DominoeValue.Ten
+      ten
     when 11
-      DominoeValue.Eleven
+      eleven
     when 12
-      DominoeValue.Twelve
-
-export dval_to_num = (dominoe_val) ->
-  switch dominoe_val
-    when DominoeValue.Blank
-      0
-    when DominoeValue.One
-      1
-    when DominoeValue.Two
-      2
-    when DominoeValue.Three
-      3
-    when DominoeValue.Four
-      4
-    when DominoeValue.Five
-      5
-    when DominoeValue.Six
-      6
-    when DominoeValue.Seven
-      7
-    when DominoeValue.Eight
-      8
-    when DominoeValue.Nine
-      9
-    when DominoeValue.Ten
-      10
-    when DominoeValue.Eleven
-      11
-    when DominoeValue.Twelve
-      12
+      twelve
 
 { :get_image_from_dvalue, :base, :DOMINOE_WIDTH, :DOMINOE_HEIGHT, :HALF_IMAGE_OFFSET, :num_to_dval, :dval_to_num }

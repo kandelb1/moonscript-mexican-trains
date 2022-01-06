@@ -18,9 +18,6 @@ love.load = function()
   print("love loaded")
   return love.graphics.setBackgroundColor(6 / 255, 47 / 255, 14 / 255, 1)
 end
-local base = love.graphics.newImage("img/Base.png")
-local five = love.graphics.newImage("img/Five.png")
-local four = love.graphics.newImage("img/Four.png")
 love.draw = function()
   return game:draw()
 end

@@ -16,90 +16,30 @@ DOMINOE_HEIGHT = base:getHeight()
 HALF_IMAGE_OFFSET = DOMINOE_HEIGHT / 2
 get_image_from_dvalue = function(dominoe_val)
   local _exp_0 = dominoe_val
-  if DominoeValue.One == _exp_0 then
+  if 1 == _exp_0 then
     return one
-  elseif DominoeValue.Two == _exp_0 then
-    return two
-  elseif DominoeValue.Three == _exp_0 then
-    return three
-  elseif DominoeValue.Four == _exp_0 then
-    return four
-  elseif DominoeValue.Five == _exp_0 then
-    return five
-  elseif DominoeValue.Six == _exp_0 then
-    return six
-  elseif DominoeValue.Seven == _exp_0 then
-    return seven
-  elseif DominoeValue.Eight == _exp_0 then
-    return eight
-  elseif DominoeValue.Nine == _exp_0 then
-    return nine
-  elseif DominoeValue.Ten == _exp_0 then
-    return ten
-  elseif DominoeValue.Eleven == _exp_0 then
-    return eleven
-  elseif DominoeValue.Twelve == _exp_0 then
-    return twelve
-  end
-end
-num_to_dval = function(num)
-  local _exp_0 = num
-  if 0 == _exp_0 then
-    return DominoeValue.Blank
-  elseif 1 == _exp_0 then
-    return DominoeValue.One
   elseif 2 == _exp_0 then
-    return DominoeValue.Two
+    return two
   elseif 3 == _exp_0 then
-    return DominoeValue.Three
+    return three
   elseif 4 == _exp_0 then
-    return DominoeValue.Four
+    return four
   elseif 5 == _exp_0 then
-    return DominoeValue.Five
+    return five
   elseif 6 == _exp_0 then
-    return DominoeValue.Six
+    return six
   elseif 7 == _exp_0 then
-    return DominoeValue.Seven
+    return seven
   elseif 8 == _exp_0 then
-    return DominoeValue.Eight
+    return eight
   elseif 9 == _exp_0 then
-    return DominoeValue.Nine
+    return nine
   elseif 10 == _exp_0 then
-    return DominoeValue.Ten
+    return ten
   elseif 11 == _exp_0 then
-    return DominoeValue.Eleven
+    return eleven
   elseif 12 == _exp_0 then
-    return DominoeValue.Twelve
-  end
-end
-dval_to_num = function(dominoe_val)
-  local _exp_0 = dominoe_val
-  if DominoeValue.Blank == _exp_0 then
-    return 0
-  elseif DominoeValue.One == _exp_0 then
-    return 1
-  elseif DominoeValue.Two == _exp_0 then
-    return 2
-  elseif DominoeValue.Three == _exp_0 then
-    return 3
-  elseif DominoeValue.Four == _exp_0 then
-    return 4
-  elseif DominoeValue.Five == _exp_0 then
-    return 5
-  elseif DominoeValue.Six == _exp_0 then
-    return 6
-  elseif DominoeValue.Seven == _exp_0 then
-    return 7
-  elseif DominoeValue.Eight == _exp_0 then
-    return 8
-  elseif DominoeValue.Nine == _exp_0 then
-    return 9
-  elseif DominoeValue.Ten == _exp_0 then
-    return 10
-  elseif DominoeValue.Eleven == _exp_0 then
-    return 11
-  elseif DominoeValue.Twelve == _exp_0 then
-    return 12
+    return twelve
   end
 end
 return {

@@ -12,10 +12,6 @@ love.load = ->
   print "love loaded"
   love.graphics.setBackgroundColor(6 / 255, 47 / 255, 14 / 255, 1)
 
-base = love.graphics.newImage("img/Base.png")
-five = love.graphics.newImage("img/Five.png")
-four = love.graphics.newImage("img/Four.png")
-
 love.draw = -> 
   game\draw!
 

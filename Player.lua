@@ -9,6 +9,8 @@ do
 end
 local Mouse
 Mouse = require("Mouse").Mouse
+local Move
+Move = require("Move").Move
 local sum
 sum = function(numbers)
   local total = 0
@@ -29,7 +31,7 @@ do
       return error("Not implemented in base class.")
     end,
     give_dominoe = function(self, dominoe)
-      dominoe:set_position(100 + (#self.hand * 60), 600)
+      dominoe:set_position(100 + (#self.hand * 60), 700)
       return insert(self.hand, dominoe)
     end,
     take_dominoe = function(self, index)
@@ -38,6 +40,14 @@ do
       end
       return remove(self.hand, index)
     end,
+    remove_dominoe = function(self, dominoe)
+      for i, d in pairs(self.hand) do
+        if d == dominoe then
+          remove(self.hand, i)
+          break
+        end
+      end
+    end,
     calculate_score = function(self)
       return sum((function()
         local _accum_0 = { }
@@ -45,11 +55,22 @@ do
         local _list_0 = self.hand
         for _index_0 = 1, #_list_0 do
           local d = _list_0[_index_0]
-          _accum_0[_len_0] = dval_to_num(d.top_half) + dval_to_num(d.bot_half)
+          _accum_0[_len_0] = d.top_half + d.bot_half
           _len_0 = _len_0 + 1
         end
         return _accum_0
       end)())
+    end,
+    has_move_ready = function(self)
+      return self.move_ready
+    end,
+    complete_move = function(self, move)
+      self.move = move
+      self.move_ready = true
+    end,
+    reset_move = function(self)
+      self.move_ready = false
+      self.move = nil
     end,
     print_hand = function(self)
       print("Player " .. tostring(self.name) .. " printing hand...")
@@ -66,6 +87,8 @@ do
     __init = function(self, name, train)
       self.name, self.train = name, train
       self.hand = { }
+      self.move_ready = false
+      self.move = nil
     end,
     __base = _base_0,
     __name = "BasePlayer",
@@ -114,15 +137,6 @@ do
     end,
     mousepressed = function(self, x, y, button)
       return self.mouse:click_mouse(x, y, button)
-    end,
-    remove_dominoe = function(self, dominoe)
-      for i, d in pairs(self.hand) do
-        if d == dominoe then
-          print("removing")
-          remove(self.hand, i)
-          break
-        end
-      end
     end
   }
   _base_0.__index = _base_0
@@ -159,17 +173,77 @@ do
   end
   HumanPlayer = _class_0
 end
+local bot_names = {
+  "Jeff",
+  "Arnold",
+  "Megan",
+  "Bob",
+  "Jessica",
+  "Frank",
+  "Ethan",
+  "Freddy",
+  "Melissa",
+  "Seth",
+  "Morgan"
+}
 do
   local _class_0
   local _parent_0 = BasePlayer
   local _base_0 = {
-    update = function(self, dt) end,
+    update = function(self, dt)
+      return self:think_of_move()
+    end,
+    think_of_move = function(self)
+      print("Player " .. tostring(self.name) .. " thinking of move...")
+      love.timer.sleep(0.25)
+      local _list_0 = self.hand
+      for _index_0 = 1, #_list_0 do
+        local dominoe = _list_0[_index_0]
+        if self.train:can_connect(dominoe, game.current_double) then
+          self:complete_move(Move(self.train, dominoe))
+          return 
+        end
+      end
+      local open_trains
+      do
+        local _accum_0 = { }
+        local _len_0 = 1
+        local _list_1 = game.trains
+        for _index_0 = 1, #_list_1 do
+          local train = _list_1[_index_0]
+          if train.is_open then
+            _accum_0[_len_0] = train
+            _len_0 = _len_0 + 1
+          end
+        end
+        open_trains = _accum_0
+      end
+      local _list_1 = self.hand
+      for _index_0 = 1, #_list_1 do
+        local dominoe = _list_1[_index_0]
+        for _index_1 = 1, #open_trains do
+          local train = open_trains[_index_1]
+          if train:can_connect(dominoe, game.current_double) then
+            self:complete_move(Move(train, dominoe))
+            return 
+          end
+        end
+      end
+      self:complete_move(Move():make_draw())
+      return false
+    end,
+    end_turn = function(self)
+      return print("ending turn.")
+    end,
     draw = function(self) end
   }
   _base_0.__index = _base_0
   setmetatable(_base_0, _parent_0.__base)
   _class_0 = setmetatable({
-    __init = function(self) end,
+    __init = function(self, train)
+      local random_name = bot_names[love.math.random(1, #bot_names)]
+      return _class_0.__parent.__init(self, random_name, train)
+    end,
     __base = _base_0,
     __name = "AIPlayer",
     __parent = _parent_0
